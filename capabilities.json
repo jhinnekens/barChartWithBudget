@@ -7,9 +7,27 @@
             "kind": "Grouping"
         },
         {
-            "displayName": "TxChargeable",
-            "name": "TxChargeable",
+            "displayName": "Order",
+            "name": "Order",
             "displayNameKey": "Visual_Category2",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Tx Chargeable Ferme",
+            "name": "TxChargeable",
+            "displayNameKey": "Visual_Category3",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Tx Chargeable Previs",
+            "name": "TxPrevis",
+            "displayNameKey": "Visual_Category4",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Budget",
+            "name": "Budget",
+            "displayNameKey": "Visual_Category5",
             "kind": "Measure"
         }
     ],
@@ -25,7 +43,22 @@
                         },
                         {
                             "for": {
+                                "in": "Order"
+                            }
+                        },
+                        {
+                            "for": {
                                 "in": "TxChargeable"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "TxPrevis"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "Budget"
                             }
                         }
                     ]

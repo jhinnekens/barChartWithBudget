@@ -102,9 +102,10 @@ class Visual {
     constructor(options) {
         this.target = options.element;
         if (document) {
-            this.testDiv = document.createElement("div");
+            this.graphRootDiv = document.createElement("div");
+            this.graphRootDiv.classList.add("barChart");
+            this.target.appendChild(this.graphRootDiv);
         }
-        this.target.appendChild(this.testDiv);
     }
     update(options) {
         const dataView = options.dataViews[0];
@@ -112,17 +113,49 @@ class Visual {
         if (!tableDataView)
             return;
         let TableData = [];
+        console.log(TableData);
         //creation of a table of objects
         tableDataView.rows.forEach((row) => {
             let dataRow = {};
             dataRow.category1 = row[tableDataView.columns.filter((d) => d.roles.category1 != undefined)[0].index];
-            console.log(dataRow);
+            /*dataRow.Order = row[tableDataView.columns.filter((d) => d.roles.Order != undefined )[0].index];
+           */
+            dataRow.TxChargeable = row[tableDataView.columns.filter((d) => d.roles.TxChargeable != undefined)[0].index];
+            dataRow.TxPrevis = row[tableDataView.columns.filter((d) => d.roles.TxPrevis != undefined)[0].index];
+            dataRow.Budget = row[tableDataView.columns.filter((d) => d.roles.Budget != undefined)[0].index];
             TableData.push(dataRow);
         });
-        this.testDiv.innerHTML = "";
+        console.log(TableData);
+        this.graphRootDiv.innerHTML = "";
+        const ordinate = this.graphRootDiv.appendChild(document.createElement("div"));
+        ordinate.classList.add("barChart-ordinate");
         TableData.forEach((d) => {
-            let innerTestDiv = this.testDiv.appendChild(document.createElement("div"));
-            innerTestDiv.appendChild(document.createTextNode(d.category1));
+            let barChartElement = this.graphRootDiv.appendChild(document.createElement("div"));
+            barChartElement.classList.add("barChart-Element");
+            let barChartElementLegend = barChartElement.appendChild(document.createElement("div"));
+            barChartElementLegend.classList.add("barChart-Element-legend");
+            barChartElementLegend.appendChild(document.createTextNode(d.category1));
+            let barChartElementBar = barChartElement.appendChild(document.createElement("div"));
+            barChartElementBar.classList.add("barChart-Element-bar");
+            let barChartElementInner1 = barChartElementBar.appendChild(document.createElement("div"));
+            barChartElementInner1.classList.add("barChart-Element-inner");
+            barChartElementInner1.classList.add("color1");
+            barChartElementInner1.setAttribute("style", "width: " + (250 * d.TxChargeable).toString() + "px;");
+            let barChartElementInner2 = barChartElementBar.appendChild(document.createElement("div"));
+            barChartElementInner2.classList.add("barChart-Element-inner");
+            barChartElementInner2.classList.add("color2");
+            barChartElementInner2.setAttribute("style", "width: " + (250 * d.TxPrevis).toString() + "px;");
+            let barChartElementInnerText = barChartElementBar.appendChild(document.createElement("div"));
+            barChartElementInnerText.classList.add("barChart-Element-innerText");
+            barChartElementInnerText.appendChild(document.createTextNode((Math.round((d.TxChargeable + d.TxPrevis) * 1000) / 10).toString() + '%'));
+            let barChartElementBudget = barChartElement.appendChild(document.createElement("div"));
+            barChartElementBudget.classList.add("barChart-Element-budget");
+            if (d.Budget > d.TxChargeable)
+                barChartElementBudget.classList.add("colorBad");
+            else
+                barChartElementBudget.classList.add("colorGood");
+            let sign = d.Budget > d.TxChargeable ? '-' : '+';
+            barChartElementBudget.appendChild(document.createTextNode(sign + (Math.round((d.Budget - d.TxChargeable) * 1000) / 10).toString() + '%'));
         });
     }
     static parseSettings(dataView) {

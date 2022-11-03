@@ -8,7 +8,7 @@ import VisualObjectInstance = powerbi.VisualObjectInstance;
 import VisualObjectInstanceEnumerationObject = powerbi.VisualObjectInstanceEnumerationObject;
 export declare class Visual implements IVisual {
     private settings;
-    private testDiv;
+    private graphRootDiv;
     private target;
     constructor(options: VisualConstructorOptions);
     update(options: VisualUpdateOptions): void;

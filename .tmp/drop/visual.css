@@ -1,10 +1,61 @@
-p {
-  font-size: 20px;
-  font-weight: bold;
+div {
+  cursor: default;
 }
-p em {
-  background: yellow;
-  padding: 5px;
+.barChart {
+  width: 500px;
+  border: 1px solid black;
+  position: relative;
+}
+.barChart-ordinate {
+  position: absolute;
+  width: 2px;
+  background-color: #333;
+  left: 125px;
+  height: calc(100% - 4px);
+  top: 2px;
+}
+.barChart-Element {
+  margin: 5px;
+}
+.barChart-Element div {
+  display: inline-block;
+  vertical-align: middle;
+}
+.barChart-Element-legend {
+  width: 120px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 13px;
+}
+.barChart-Element-bar {
+  width: 300px;
+  font-size: 0px;
+}
+.barChart-Element-inner:hover {
+  opacity: 0.65;
+  cursor: pointer;
+  transform: scale(1, 1.15);
+  transition-duration: 250ms;
+}
+.barChart-Element-inner {
+  height: 15px;
+}
+.barChart-Element-innerText {
+  padding-left: 4px;
+  font-size: 14px;
+}
+.color1 {
+  background-color: red;
+}
+.color2 {
+  background-color: blue;
+}
+.colorGood {
+  color: green;
+}
+.colorBad {
+  color: red;
 }
 
 
