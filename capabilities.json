@@ -1,79 +1,31 @@
 {
     "dataRoles": [
         {
-            "displayName": "Category Data",
-            "name": "category",
+            "displayName": "Category1",
+            "name": "category1",
+            "displayNameKey": "Visual_Category",
             "kind": "Grouping"
         },
         {
-            "displayName": "Measure Data",
-            "name": "measure",
+            "displayName": "TxChargeable",
+            "name": "TxChargeable",
+            "displayNameKey": "Visual_Category2",
             "kind": "Measure"
         }
     ],
-    "objects": {
-        "dataPoint": {
-            "displayName": "Data colors",
-            "properties": {
-                "defaultColor": {
-                    "displayName": "Default color",
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }
-                },
-                "showAllDataPoints": {
-                    "displayName": "Show all",
-                    "type": {
-                        "bool": true
-                    }
-                },
-                "fill": {
-                    "displayName": "Fill",
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }
-                },
-                "fillRule": {
-                    "displayName": "Color saturation",
-                    "type": {
-                        "fill": {}
-                    }
-                },
-                 "fontSize": {
-                    "displayName": "Text Size",
-                    "type": {
-                        "formatting": {
-                            "fontSize": true
-                        }
-                    }
-                }
-            }
-        }
-    },
     "dataViewMappings": [
         {
-            "categorical": {
-                "categories": {
-                    "for": {
-                        "in": "category"
-                    },
-                    "dataReductionAlgorithm": {
-                        "top": {}
-                    }
-                },
-                "values": {
+            "table": {
+                "rows": {
                     "select": [
                         {
-                            "bind": {
-                                "to": "measure"
+                            "for": {
+                                "in": "category1"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "TxChargeable"
                             }
                         }
                     ]

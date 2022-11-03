@@ -34,35 +34,72 @@ import EnumerateVisualObjectInstancesOptions = powerbi.EnumerateVisualObjectInst
 import VisualObjectInstance = powerbi.VisualObjectInstance;
 import DataView = powerbi.DataView;
 import VisualObjectInstanceEnumerationObject = powerbi.VisualObjectInstanceEnumerationObject;
+import DataViewTable = powerbi.DataViewTable;
+import DataViewTableRow = powerbi.DataViewTableRow;
 
 import { VisualSettings } from "./settings";
 export class Visual implements IVisual {
-    private target: HTMLElement;
-    private updateCount: number;
+
     private settings: VisualSettings;
-    private textNode: Text;
+    private testDiv: HTMLElement;
+    private target: HTMLElement;
 
     constructor(options: VisualConstructorOptions) {
-        console.log('Visual constructor', options);
+
+        
         this.target = options.element;
-        this.updateCount = 0;
+
         if (document) {
-            const new_p: HTMLElement = document.createElement("p");
-            new_p.appendChild(document.createTextNode("Update count:"));
-            const new_em: HTMLElement = document.createElement("em");
-            this.textNode = document.createTextNode(this.updateCount.toString());
-            new_em.appendChild(this.textNode);
-            new_p.appendChild(new_em);
-            this.target.appendChild(new_p);
+            this.testDiv = document.createElement("div");
         }
+
+        this.target.appendChild(this.testDiv);
     }
 
     public update(options: VisualUpdateOptions) {
-        this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
-        console.log('Visual update', options);
-        if (this.textNode) {
-            this.textNode.textContent = (this.updateCount++).toString();
-        }
+
+
+        
+        const dataView: DataView = options.dataViews[0];
+        const tableDataView: DataViewTable = dataView.table;
+
+
+     
+
+        if (!tableDataView) 
+            return;
+        
+
+
+        let TableData = [];
+
+        //creation of a table of objects
+        tableDataView.rows.forEach((row: DataViewTableRow) => {
+  
+
+            let dataRow : any = {};
+
+
+            dataRow.category1 = row[tableDataView.columns.filter((d) => d.roles.category1 != undefined )[0].index];
+
+            console.log(dataRow);
+           
+
+            TableData.push(dataRow);
+    
+          
+        });
+
+
+        this.testDiv.innerHTML = "";
+
+        TableData.forEach((d) => 
+        {
+            let innerTestDiv = this.testDiv.appendChild(document.createElement("div"));
+            innerTestDiv.appendChild(document.createTextNode(d.category1));
+        })
+        ;
+
     }
 
     private static parseSettings(dataView: DataView): VisualSettings {
