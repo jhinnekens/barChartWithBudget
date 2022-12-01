@@ -1,4 +1,6 @@
 {
+
+    
     "dataRoles": [
         {
             "displayName": "Category1",
@@ -31,6 +33,36 @@
             "kind": "Measure"
         }
     ],
+    
+    "objects": {
+        
+            "BarChart": {
+                "properties": {
+                    "colorFerme": {
+                        "type": {
+                            "fill": {
+                                "solid": {
+                                    "color": true
+                                }
+                            }
+                        }
+                    }, 
+                    "colorPrevis": {
+                            "type": {
+                                "fill": {
+                                    "solid": {
+                                        "color": true
+                                    }
+                                }
+                            }
+                        }
+                }
+            }
+        }
+    
+
+    ,
+
     "dataViewMappings": [
         {
             "table": {

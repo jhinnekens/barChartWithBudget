@@ -1,0 +1,17 @@
+{
+    "version": "1.0.0",
+    "author": {"name":"Julien Hinnekens","email":"julien.hinnekens@pwc.com"},
+    "resources": [
+        {
+            "resourceId": "rId0",
+            "sourceType": 5,
+            "file": "resources/barChartWithBudget1712D533000A4290A14B88EDE1BCE48A.pbiviz.json"
+        }
+    ],
+    "visual": {"name":"barChartWithBudget","displayName":"barChartWithBudget","guid":"barChartWithBudget1712D533000A4290A14B88EDE1BCE48A","visualClassName":"Visual","version":"1.0.0","description":"bar chart with budget","supportUrl":"https://github.com/jhinnekens/barChartWithBudget","gitHubUrl":"https://github.com/jhinnekens/barChartWithBudget"},
+    "metadata": {
+        "pbivizjson": {
+            "resourceId": "rId0"
+        }
+    }  
+}

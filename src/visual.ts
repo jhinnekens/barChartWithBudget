@@ -39,13 +39,23 @@ import DataViewTableRow = powerbi.DataViewTableRow;
 
 
 import { VisualSettings } from "./settings";
+
+
 export class Visual implements IVisual {
+
+    
 
     private settings: VisualSettings;
     private graphRootDiv: HTMLElement;
     private target: HTMLElement;
+    
 
     constructor(options: VisualConstructorOptions) {
+
+
+      console.log(options);
+
+
 
         this.target = options.element;
 
@@ -53,9 +63,14 @@ export class Visual implements IVisual {
             this.graphRootDiv = document.createElement("div");
             this.graphRootDiv.classList.add("barChart");
             this.target.appendChild(this.graphRootDiv);
+            
+
+            
         
         }
 
+
+      
         
 
     }
@@ -79,7 +94,6 @@ export class Visual implements IVisual {
 
         let TableData = [];
 
-        console.log(TableData);
         
         //creation of a table of objects
         tableDataView.rows.forEach((row: DataViewTableRow) => {
@@ -88,22 +102,16 @@ export class Visual implements IVisual {
             let dataRow : any = {};
 
 
+            // This filter allows to get the data in a simple table
             dataRow.category1 = row[tableDataView.columns.filter((d) => d.roles.category1 != undefined )[0].index];
-            
-            /*dataRow.Order = row[tableDataView.columns.filter((d) => d.roles.Order != undefined )[0].index];
-           */
-
             dataRow.TxChargeable = row[tableDataView.columns.filter((d) => d.roles.TxChargeable != undefined )[0].index];
             dataRow.TxPrevis = row[tableDataView.columns.filter((d) => d.roles.TxPrevis != undefined )[0].index];
             dataRow.Budget = row[tableDataView.columns.filter((d) => d.roles.Budget != undefined )[0].index];
            
-
             TableData.push(dataRow);
     
           
         });
-
-        console.log(TableData);
 
 
         this.graphRootDiv.innerHTML = "";
@@ -117,10 +125,16 @@ export class Visual implements IVisual {
 
         let barChartElement =  this.graphRootDiv.appendChild(document.createElement("div"));
         barChartElement.classList.add("barChart-Element");
+        barChartElement.setAttribute("style", "height:calc(" + (100/TableData.length).toString() + "% - 10px);");
+
+        let barChartElementAligner =  barChartElement.appendChild(document.createElement("div"));
+        barChartElementAligner.classList.add("barChart-Element-Aligner");
+  
 
         let barChartElementLegend =  barChartElement.appendChild(document.createElement("div"));
         barChartElementLegend.classList.add("barChart-Element-legend");
         barChartElementLegend.appendChild(document.createTextNode(d.category1));
+        
 
         let barChartElementBar =  barChartElement.appendChild(document.createElement("div"));
         barChartElementBar.classList.add("barChart-Element-bar");
@@ -128,28 +142,32 @@ export class Visual implements IVisual {
         let barChartElementInner1 =  barChartElementBar.appendChild(document.createElement("div"));
         barChartElementInner1.classList.add("barChart-Element-inner");
         barChartElementInner1.classList.add("color1");
-        barChartElementInner1.setAttribute("style", "width: "  + (250 * d.TxChargeable).toString() + "px;");
+        barChartElementInner1.setAttribute("style", "width: "  + (100 * d.TxChargeable).toString() + "%;");
 
         let barChartElementInner2 =  barChartElementBar.appendChild(document.createElement("div"));
         barChartElementInner2.classList.add("barChart-Element-inner");
         barChartElementInner2.classList.add("color2");
-        barChartElementInner2.setAttribute("style", "width: "  + (250 * d.TxPrevis).toString() + "px;");
+        barChartElementInner2.setAttribute("style", "width: "  + (100 * d.TxPrevis).toString() + "%;");
 
         let barChartElementInnerText =  barChartElementBar.appendChild(document.createElement("div"));
         barChartElementInnerText.classList.add("barChart-Element-innerText");
         barChartElementInnerText.appendChild(document.createTextNode((Math.round((d.TxChargeable+d.TxPrevis)*1000)/10).toString() + '%'));
 
-        let barChartElementBudget =  barChartElement.appendChild(document.createElement("div"));
-        barChartElementBudget.classList.add("barChart-Element-budget");
-
-        if (d.Budget > d.TxChargeable)
-        barChartElementBudget.classList.add("colorBad");
-
-        else
-        barChartElementBudget.classList.add("colorGood");
-        
-        let sign  = d.Budget > d.TxChargeable ? '-' : '+';
-        barChartElementBudget.appendChild(document.createTextNode(sign + (Math.round((d.Budget-d.TxChargeable)*1000)/10).toString() + '%'));
+        if (d.Budget) // On display le budget que s'il y a un budget
+        {
+          let barChartElementBudget =  barChartElement.appendChild(document.createElement("div"));
+          barChartElementBudget.classList.add("barChart-Element-budget");
+  
+          if (d.Budget > d.TxChargeable)
+          barChartElementBudget.classList.add("colorBad");
+  
+          else
+          barChartElementBudget.classList.add("colorGood");
+          
+          let sign  = d.Budget > d.TxChargeable ? '▼-' : '▲+';
+          barChartElementBudget.appendChild(document.createTextNode(sign + (Math.round((d.Budget-d.TxChargeable)*1000)/10).toString() + '%'));
+  
+        }
 
 
       })
